@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Platforms>x64</Platforms>
+		<RootNamespace>GolemoSDK</RootNamespace>
+		<PackageId>LiteSDK</PackageId>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="1.3.0-beta.2" />
+    <PackageReference Include="RAGEMP-Bootstrapper" Version="1.1.3" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Bootstrapper">
+      <HintPath>..\..\..\runtime\Bootstrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "Lite": {
+      "commandName": "Executable",
+      "executablePath": ".\\ragemp-server.exe",
+      "workingDirectory": "E:\\gtaMods\\NightRolePlay",
+      "console": "externalTerminal",
+      "type": "coreclr",
+      "cwd": "C:\\Users\\Meo\\Desktop\\DreamRP",
+      "preLaunchTask": "compile",
+      "name": "RAGE-MP Launch (build)",
+      "stopAtEntry": false,
+      "request": "launch",
+      "internalConsoleOptions": "neverOpen",
+      "program": "ragemp-server.exe"
+    }
+  }
+}
