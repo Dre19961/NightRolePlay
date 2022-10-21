@@ -582,7 +582,7 @@ namespace Lite
             int where = -1;
             try
             {
-          
+
                 if (Main.Players[player].PersonID == null) { return; }
                 NAPI.Entity.SetEntityDimension(player, 0);
                 Trigger.ClientEvent(player, "freeze", false);
@@ -591,31 +591,36 @@ namespace Lite
                 Players[player].IsAlive = true;
 
                 if (!VehicleManager.Vehicles.ContainsKey(Players[player].LastVeh)) Players[player].LastVeh = "";
-                if(Players[player].Unmute > 0) {
-                    if(!player.HasData("MUTE_TIMER")) {
+                if (Players[player].Unmute > 0)
+                {
+                    if (!player.HasData("MUTE_TIMER"))
+                    {
                         player.SetData("MUTE_TIMER", Timers.StartTask(1000, () => Admin.timer_mute(player)));
                         player.SetSharedData("voice.muted", true);
                         Trigger.ClientEvent(player, "voice.mute");
-                    } else Log.Write($"ClientSpawn MuteTime (MUTE) worked avoid", nLog.Type.Warn);
+                    }
+                    else Log.Write($"ClientSpawn MuteTime (MUTE) worked avoid", nLog.Type.Warn);
                 }
                 if (Players[player].ArrestTime != 0)
                 {
-                    if(!player.HasData("ARREST_TIMER"))
+                    if (!player.HasData("ARREST_TIMER"))
                     {
                         player.SetData("ARREST_TIMER", Timers.StartTask(1000, () => Fractions.FractionCommands.arrestTimer(player)));
                         NAPI.Entity.SetEntityPosition(player, Fractions.Police.policeCheckpoints[4]);
                         //NAPI.Entity.SetEntityPosition(player, Fractions.Sheriff.sheriffCheckpoints[4]); //todo вернуться
-                    } else Log.Write($"ClientSpawn ArrestTime (KPZ) worked avoid", nLog.Type.Warn);
+                    }
+                    else Log.Write($"ClientSpawn ArrestTime (KPZ) worked avoid", nLog.Type.Warn);
                 }
                 else if (Players[player].DemorganTime != 0)
                 {
-                    if(!player.HasData("ARREST_TIMER"))
+                    if (!player.HasData("ARREST_TIMER"))
                     {
                         player.SetData("ARREST_TIMER", Timers.StartTask(1000, () => Admin.timer_demorgan(player)));
                         Weapons.RemoveAll(player, true);
                         NAPI.Entity.SetEntityPosition(player, Admin.DemorganPosition + new Vector3(0, 0, 1.5));
                         NAPI.Entity.SetEntityDimension(player, 1337);
-                    } else Log.Write($"ClientSpawn ArrestTime (DEMORGAN) worked avoid", nLog.Type.Warn);
+                    }
+                    else Log.Write($"ClientSpawn ArrestTime (DEMORGAN) worked avoid", nLog.Type.Warn);
                 }
                 else
                 {
@@ -623,7 +628,7 @@ namespace Lite
                     {
                         case 0:
                             NAPI.Entity.SetEntityPosition(player, Players[player].SpawnPos);
-                            
+
                             Customization.ApplyCharacter(player);
                             if (Players[player].FractionID > 0) Fractions.Manager.Load(player, Players[player].FractionID, Players[player].FractionLVL);
                             if (Players[player].FamilyRank > 0) Families.Member.LoadMembers(player, Players[player].FamilyCID, Players[player].FamilyRank);
@@ -698,58 +703,60 @@ namespace Lite
                             break;
                     }
                 }
-                    Trigger.ClientEvent(player, "acpos");
-                    Trigger.ClientEvent(player, "ready");
-                    Trigger.ClientEvent(player, "redset", Accounts[player].RedBucks);
+                Trigger.ClientEvent(player, "acpos");
+                Trigger.ClientEvent(player, "ready");
+                Trigger.ClientEvent(player, "redset", Accounts[player].RedBucks);
 
-                    Core.Character.Character acc = Main.Players[player];
-                    var name = acc.FirstName;
-                    var surname = acc.LastName;
-                    player.SendChatMessage($"!{{#ffffff}}Вы вошли за персонажа !{{#819feb}}{name} {surname},!{{#ffffff}} удачной игры в штате Night RP!");
-                    player.SendChatMessage($"!{{#819feb}}Наш Discord: !{{#ffffff}} https://discord.gg/UQsDVN7YRJ");
+                Core.Character.Character acc = Main.Players[player];
+                var name = acc.FirstName;
+                var surname = acc.LastName;
+                player.SendChatMessage($"!{{#ffffff}}Вы вошли за персонажа !{{#819feb}}{name} {surname},!{{#ffffff}} удачной игры в штате Night RP!");
+                player.SendChatMessage($"!{{#819feb}}Наш Discord: !{{#ffffff}} https://discord.gg/UQsDVN7YRJ");
 
-                    player.SetData("spmode", false);
-                    player.SetSharedData("InDeath", false);
-                    foreach (nItem items in nInventory.Items[Main.Players[player].UUID])
+                player.SetData("spmode", false);
+                player.SetSharedData("InDeath", false);
+                foreach (nItem items in nInventory.Items[Main.Players[player].UUID])
+                {
+                    if (items.FastSlots > 0)
                     {
-                        if (items.FastSlots > 0)
+                        if (FastSlots.Carabine.Contains(items.Type))
                         {
-                            if (FastSlots.Carabine.Contains(items.Type))
-                            {
-                                BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 24818, new Vector3(-0.1, -0.15, -0.13), new Vector3(0.0, 0.0, 3.5), items);
-                            }
-                            if (FastSlots.Shot.Contains(items.Type))
-                            {
-                                BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 24818, new Vector3(-0.1, -0.15, 0.11), new Vector3(-180.0, 0.0, 0.0), items);
-                            }
-                            if (FastSlots.SMG.Contains(items.Type))
-                            {
-                                BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 58271, new Vector3(0.08, 0.03, -0.1), new Vector3(-80.77, 0.0, 0.0), items);
-                            }
-                            if (FastSlots.Pistol.Contains(items.Type))
-                            {
-                                BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 51826, new Vector3(0.02, 0.06, 0.1), new Vector3(-100.0, 0.0, 0.0), items);
-                            }
+                            BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 24818, new Vector3(-0.1, -0.15, -0.13), new Vector3(0.0, 0.0, 3.5), items);
+                        }
+                        if (FastSlots.Shot.Contains(items.Type))
+                        {
+                            BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 24818, new Vector3(-0.1, -0.15, 0.11), new Vector3(-180.0, 0.0, 0.0), items);
+                        }
+                        if (FastSlots.SMG.Contains(items.Type))
+                        {
+                            BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 58271, new Vector3(0.08, 0.03, -0.1), new Vector3(-80.77, 0.0, 0.0), items);
+                        }
+                        if (FastSlots.Pistol.Contains(items.Type))
+                        {
+                            BasicSync.StaticAttachmentsAdd(player, nInventory.ItemModels[items.Type], 51826, new Vector3(0.02, 0.06, 0.1), new Vector3(-100.0, 0.0, 0.0), items);
                         }
                     }
+                }
+                if (Players[player].AdminLVL > 0)
+                {
+                    NAPI.Task.Run(() => { ReportSys.onAdminLoad(player); }, 5000);
+                }
+                NAPI.Task.Run(() =>
+                {
                     if (Players[player].AdminLVL > 0)
                     {
-                        NAPI.Task.Run(() => { ReportSys.onAdminLoad(player); }, 5000);
+                        ReportSys.onAdminLoad(player);
                     }
-                    NAPI.Task.Run(() => {
-                        if (Players[player].AdminLVL > 0)
-                        {
-                            ReportSys.onAdminLoad(player);
-                        }
-                        if (Players[player].FractionID == 15)
-                        {
-                            Trigger.ClientEvent(player, "enableadvert", true);
-                            Fractions.LSNews.onLSNPlayerLoad(player);
-                        }
-                    }, 5000);
-                }
-                catch (Exception e) { Log.Write($"ClientEvent_Spawn/{where}: " + e.Message, nLog.Type.Error); }
+                    if (Players[player].FractionID == 15)
+                    {
+                        Trigger.ClientEvent(player, "enableadvert", true);
+                        Fractions.LSNews.onLSNPlayerLoad(player);
+                    }
+                }, 5000);
+                DaVilka.Trigger.OnPlayerSpawn?.Invoke(player, acc);
             }
+            catch (Exception e) { Log.Write($"ClientEvent_Spawn/{where}: " + e.Message, nLog.Type.Error); }
+        }
 
 
 

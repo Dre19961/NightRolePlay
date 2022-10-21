@@ -11,6 +11,11 @@ using System.Threading;
 
 namespace Lite.Utils
 {
+    internal static class ExtensionPlayer
+    {
+        internal static bool IsSpawned(this Player player) { return player.HasData("IsSpawned") ? player.GetData<bool>("IsSpawned") : false; }
+        internal static void SetSpawned(this Player player, bool value) { player.SetData<bool>("IsSpawned", value); }
+    }
     internal class ChangePlayerDimension : Script
     {
         private const uint _worldDimension = 0;
@@ -31,16 +36,24 @@ namespace Lite.Utils
         public void OnResourceStart()
         {
             //var derivedTypes = Assembly.GetExecutingAssembly().ExportedTypes.Where(t => t.BaseType.FullName == "GTANetworkAPI.Script");
+            DaVilka.Trigger.OnPlayerSpawn += (p, c) => { p.SetSpawned(true); };
         }
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)
         {
             if (!timerId.ContainsKey(player))
             {
-                string id = Timers.Start(500, () =>
+                string id = Timers.Start(2000, () =>
                 {
-                    Console.WriteLine($"player.Value: {(Main.Players.ContainsKey(player) ? Main.Players[player].FirstName : "NONE")} " +
-                        $"{player.Dimension} {(Main.Players.ContainsKey(player) ? Main.Players[player].PersonID : "NONE")}");
+                    if (player.Dimension == 0 && !player.IsSpawned()) { player.Kick(); return; }
+                    if (player.IsSpawned())
+                    {
+                        if (timerId.ContainsKey(player))
+                        {
+                            Timers.Stop(timerId[player]);
+                            timerId.Remove(player);
+                        }
+                    }
                 });
                 timerId.Add(player, id);
             }
@@ -48,7 +61,7 @@ namespace Lite.Utils
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDissconect(Player player, DisconnectionType disconnectionType, string d)
         {
-            if (!timerId.ContainsKey(player))
+            if (timerId.ContainsKey(player))
             {
                 Timers.Stop(timerId[player]);
                 timerId.Remove(player);
