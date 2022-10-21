@@ -19,7 +19,7 @@ namespace Lite.Utils
             if (!player.HasSharedData("isCrouched"))
                 player.SetSharedData("isCrouched", true);
             else
-                player.SetSharedData("isCrouched", !player.GetSharedData<bool>("isCrouched"));
+                player.SetSharedData("isCrouched", !player.GetSharedData<bool>("isCrouched")); 
         }
     }
 }

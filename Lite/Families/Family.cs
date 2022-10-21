@@ -77,7 +77,10 @@ namespace Lite.Families
             try
             {
                 Money += count;
-                MySQL.Query($"UPDATE `family` SET `money`={Money} WHERE `cid`='{FamilyCID}'");
+                MySqlCommand queryCommand = new MySqlCommand(@"UPDATE `family` SET `money`=@MONEY WHERE `cid`='@FamilyCID'");
+                queryCommand.Parameters.AddWithValue("@MONEY", Money);
+                queryCommand.Parameters.AddWithValue("@FamilyCID", FamilyCID);
+                MySQL.Query(queryCommand);
             }
             catch { }
         }
