@@ -42,7 +42,7 @@ namespace Lite.Families
             Leader = leader;
             FamilyHouse = house;
             if (!FalimyHouses.ContainsKey(house))
-            FalimyHouses.Add(house, name);
+                FalimyHouses.Add(house, name);
             if (!FamilyNames.ContainsKey(name))
                 FamilyNames.Add(name, familycid);
             MaxPlayers = maxplayers;
@@ -72,7 +72,7 @@ namespace Lite.Families
             catch { }
         }
 
-        public void AddMoney( int count)
+        public void AddMoney(int count)
         {
             try
             {
@@ -89,11 +89,11 @@ namespace Lite.Families
         {
             try
             {
-                if (string.IsNullOrEmpty(Main.Players[player].FamilyCID) ) return;
+                if (string.IsNullOrEmpty(Main.Players[player].FamilyCID)) return;
 
                 Family fam = GetFamilyToCid(player);
                 if (fam != null)
-                    fam.AddMoney(Convert.ToInt32( payment / 100 * 10 ));
+                    fam.AddMoney(Convert.ToInt32(payment / 100 * 10));
 
             }
             catch { }
@@ -205,7 +205,7 @@ namespace Lite.Families
             {
                 Log.Write(e.ToString(), nLog.Type.Error);
             }
-           
+
         }
 
         public static void SaveFamily(Family family)
@@ -359,7 +359,7 @@ namespace Lite.Families
                 return null;
             }
         }
-
+            
         public static string GetFamilyName(string cid)
         {
             try
