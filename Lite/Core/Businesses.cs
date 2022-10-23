@@ -366,7 +366,7 @@ namespace Lite.Core
             {
                
                 
-            }, // moto
+            }, // donate
             new List<string>() // aero room
             {
                 "Buzzard2",
@@ -389,6 +389,8 @@ namespace Lite.Core
                 "mvisiongt",
                 "rt70",
                 "bolide",
+                "ffrs",
+                "mercedesgls",
 
             }, // aero room
         };
@@ -1274,6 +1276,8 @@ namespace Lite.Core
             { "mvisiongt", 10 },
             { "rt70", 10 },
             { "bolide", 10 },
+            { "ffrs", 10 },
+            { "mercedesgls", 10 },
 
             { "Pistol", 20}, // gun shop
             { "CombatPistol", 20},
@@ -1518,6 +1522,8 @@ namespace Lite.Core
             { "mvisiongt", 10 },
             { "rt70", 10 },
             { "bolide", 10 },
+            { "ffrs", 10 },
+            { "mercedesgls", 10 },
             {"Pistol",10000},
             {"CombatPistol",15000},
             {"Revolver",50000},

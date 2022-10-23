@@ -153,7 +153,9 @@ namespace Lite.Jobs.FarmerJob
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Недостаточно денег", 2000);
                 return;
             }
+            
             MoneySystem.Wallet.Change(player, -price);
+
             nInventory.Add(player, new nItem(aItem.Type, count));
             Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы купили {count} {item.Name} за ${price}", 2000);
         }

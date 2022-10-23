@@ -19,7 +19,7 @@ namespace LiteSDK
         #region Settings
         private static string _dbHost = "localhost";
         private static string _dbUser = "root";
-        private static string _dbPassword = "747711";
+        private static string _dbPassword = "123AAA123";
         private static string _dbName = "nightroleplay";
         private static string _dbSslMode = "None";
         #endregion
