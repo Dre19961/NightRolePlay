@@ -18,6 +18,7 @@ namespace Lite.Utils
     }
     internal class ChangePlayerDimension : Script
     {
+        private static nLog Log = new nLog("ChangePlayerDimension");
         private Dictionary<Player, string> timerId = new Dictionary<Player, string>();
         
         [ServerEvent(Event.ResourceStart)]
@@ -29,31 +30,39 @@ namespace Lite.Utils
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)
         {
-            if (!timerId.ContainsKey(player))
+            try
             {
-                string id = Timers.Start(2000, () =>
+                if (!timerId.ContainsKey(player))
                 {
-                    if (player.Dimension == 0 && !player.IsSpawned()) player.Kick();
-                    if (player.IsSpawned())
+                    string id = Timers.Start(2000, () =>
                     {
-                        if (timerId.ContainsKey(player))
+                        if (player.Dimension == 0 && !player.IsSpawned()) player.Kick();
+                        if (player.IsSpawned())
                         {
-                            Timers.Stop(timerId[player]);
-                            timerId.Remove(player);
+                            if (timerId.ContainsKey(player))
+                            {
+                                Timers.Stop(timerId[player]);
+                                timerId.Remove(player);
+                            }
                         }
-                    }
-                });
-                timerId.Add(player, id);
+                    });
+                    timerId.Add(player, id);
+                }
             }
+            catch (Exception e) { Log.Write($"OnPlayerConnected: " + e.Message, nLog.Type.Error); }
         }
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDissconect(Player player, DisconnectionType disconnectionType, string d)
         {
-            if (timerId.ContainsKey(player))
+            try
             {
-                Timers.Stop(timerId[player]);
-                timerId.Remove(player);
+                if (timerId.ContainsKey(player))
+                {
+                    Timers.Stop(timerId[player]);
+                    timerId.Remove(player);
+                }
             }
+            catch (Exception e) { Log.Write($"OnPlayerDissconect: " + e.Message, nLog.Type.Error); }
         }
     }
 }
