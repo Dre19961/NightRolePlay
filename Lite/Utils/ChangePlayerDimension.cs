@@ -18,20 +18,8 @@ namespace Lite.Utils
     }
     internal class ChangePlayerDimension : Script
     {
-        private const uint _worldDimension = 0;
         private Dictionary<Player, string> timerId = new Dictionary<Player, string>();
-        [RemoteEvent("changePlayerDimension")]
-        private void OnСhangePlayerDimension(Player player, uint dimension)
-        {
-            switch (dimension)
-            {
-                case _worldDimension:
-                    if (!Main.Players.ContainsKey(player)) player.Kick();
-                    break;
-                default:
-                    break;
-            }
-        }
+        
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
