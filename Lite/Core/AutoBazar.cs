@@ -160,31 +160,30 @@ namespace Lite
                     player.WarpOutOfVehicle();
                 }
             }
-        [ServerEvent(Event.PlayerExitVehicle)]
-        public void Bazar_onPlayerExitVehicle(Player player, Vehicle vehicle)
-        {
-            if (vehicle == null) return;
-            try
+            [ServerEvent(Event.PlayerExitVehicle)]
+            public void Bazar_onPlayerExitVehicle(Player player, Vehicle vehicle)
             {
-                if (vehicle.HasSharedData("MarketID"))
+                try
                 {
-                    Trigger.ClientEvent(player, "closebazar");
-                }
+                    if (vehicle.HasSharedData("MarketID"))
+                    {
+                        Trigger.ClientEvent(player, "closebazar");
+                    }
 
-                if (player.HasData("BazarCarTest"))
-                {
-                    Vehicle veh = player.GetData<Vehicle>("BazarCarTest");
-                    player.Position = veh.Position;
-                    veh.Delete();
-                    player.ResetData("BazarCarTest");
-                    player.Dimension = 0;
-                    OpenBazar(player);
+                    if (player.HasData("BazarCarTest"))
+                    {
+                        Vehicle veh = player.GetData<Vehicle>("BazarCarTest");
+                        player.Position = veh.Position;
+                        veh.Delete();
+                        player.ResetData("BazarCarTest");
+                        player.Dimension = 0;
+                        OpenBazar(player);
+                    }
                 }
+                catch (Exception e) { Log.Write("BazarTestDrive: " + e.Message, nLog.Type.Error); }
             }
-            catch (Exception e) { Log.Write("BazarTestDrive: " + e.Message, nLog.Type.Error); }
-        }
 
-        public void OpenBazar(Player player)
+            public void OpenBazar(Player player)
             {
                 var CarMarket = player.Vehicle.GetSharedData<int>("MarketID");
                 DataTable resultt = MySQL.QueryRead($"SELECT * FROM `autobazar` WHERE `id` = '{CarMarket}'");
