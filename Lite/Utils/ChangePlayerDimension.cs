@@ -1,15 +1,25 @@
 ﻿using GTANetworkAPI;
 using Lite;
+using LiteSDK;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 namespace Lite.Utils
 {
+    internal static class ExtensionPlayer
+    {
+        internal static bool IsSpawned(this Player player) { return player.HasData("IsSpawned") ? player.GetData<bool>("IsSpawned") : false; }
+        internal static void SetSpawned(this Player player, bool value) { player.SetData<bool>("IsSpawned", value); }
+    }
     internal class ChangePlayerDimension : Script
     {
         private const uint _worldDimension = 0;
-
+        private Dictionary<Player, string> timerId = new Dictionary<Player, string>();
         [RemoteEvent("changePlayerDimension")]
         private void OnСhangePlayerDimension(Player player, uint dimension)
         {
@@ -59,4 +69,3 @@ namespace Lite.Utils
         }
     }
 }
-            

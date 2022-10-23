@@ -163,7 +163,8 @@ namespace Lite
             [ServerEvent(Event.PlayerExitVehicle)]
             public void Bazar_onPlayerExitVehicle(Player player, Vehicle vehicle)
             {
-                try
+            if (vehicle == null) return;
+            try
                 {
                     if (vehicle.HasSharedData("MarketID"))
                     {

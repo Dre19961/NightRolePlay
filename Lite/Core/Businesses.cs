@@ -2205,8 +2205,10 @@ namespace Lite.Core
         {
             try
             {
-                int bizID = Main.Players[player].TuningShop;
+                if (!Main.Players.ContainsKey(player) || player.Vehicle == null) player.Kick();
 
+                int bizID = Main.Players[player].TuningShop;
+                if (bizID == -1) return;
                 var veh = player.Vehicle;
                 NAPI.Entity.SetEntityDimension(veh, 0);
                 NAPI.Entity.SetEntityDimension(player, 0);
