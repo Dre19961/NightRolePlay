@@ -550,6 +550,7 @@ namespace Lite.Core
                     p.SendChatMessage("!{#ff0b06}" + $"[ANTICHEAT] [#{Main.Players[player].UUID}] {player.Name} ({player.Value}): нажал кнопку Del Нажмет еще раз = бан. Всего нажатий: {count}");
             }
         }
+        /*
         [RemoteEvent("HardBanGGWP")]
         public static void HardBanWhenExecut(Player player)
         {
@@ -568,13 +569,14 @@ namespace Lite.Core
                 }
             }
             NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Античит нашел угрозу для сервера и сразу забанила его - {player.Name} на {time}{banTimeMsg}");
-
+            NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Античит нашел угрозу для сервера и сразу забанила его - {player.Name} на {time}{banTimeMsg}");
+            
             Ban.Online(player, unbanTime, true, reason,"anticheat");
-
+            
             Notify.Send(player, NotifyType.Warning, NotifyPosition.Center, $"Ты словил банхаммер до навсегда", 30000);
             Notify.Send(player, NotifyType.Warning, NotifyPosition.Center, $"Причина: Софт хуйня", 30000);
             player.Kick(reason);
-        }
+    }*/
         public static void offBanPlayer(Player player, string name, int time, string reason)
         {
             if (!Group.CanUseCmd(player, "offban")) return;
